@@ -29,7 +29,9 @@ var loadBalancer_ipAddress_name = '${prefix}-lb-ip'
 
 var loadBalancer_backEndAddressPool_name = '${loadBalancer_name}-backend-address-pool'
 var loadBalancer_frontEndIPConfig_name = '${loadBalancer_name}-frontend-ipconfig'
-var loadBalancer_rules_name = '${loadBalancer_name}-rules'
+var loadBalancer_rules_80_name = '${loadBalancer_name}-rules-80'
+var loadBalancer_rules_443_name = '${loadBalancer_name}-rules-443'
+var loadBalancer_rules_3389_name = '${loadBalancer_name}-rules-3389'
 var loadBalancer_probes_name = '${loadBalancer_name}-probes'
 
 @secure()
@@ -424,13 +426,54 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-11-01' = {
     ]
     loadBalancingRules: [
       {
-        name: loadBalancer_rules_name
+        name: loadBalancer_rules_80_name
         properties: {
           protocol: 'Tcp'
           frontendPort: 80
           backendPort: 80
           enableFloatingIP: false
           idleTimeoutInMinutes: 5
+          loadDistribution: 'SourceIP'
+          frontendIPConfiguration: {
+            id: resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', loadBalancer_name, loadBalancer_frontEndIPConfig_name)
+          } 
+          backendAddressPool: {
+            id:  resourceId('Microsoft.Network/loadBalancers/backendAddressPools', loadBalancer_name, loadBalancer_backEndAddressPool_name)
+          }
+          probe: {
+            id: resourceId('Microsoft.Network/loadBalancers/probes', loadBalancer_name, loadBalancer_probes_name)
+          }
+        }
+      }
+      {
+        name: loadBalancer_rules_443_name
+        properties: {
+          protocol: 'Tcp'
+          frontendPort: 443
+          backendPort: 443
+          enableFloatingIP: false
+          idleTimeoutInMinutes: 5
+          loadDistribution: 'SourceIP'
+          frontendIPConfiguration: {
+            id: resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', loadBalancer_name, loadBalancer_frontEndIPConfig_name)
+          } 
+          backendAddressPool: {
+            id:  resourceId('Microsoft.Network/loadBalancers/backendAddressPools', loadBalancer_name, loadBalancer_backEndAddressPool_name)
+          }
+          probe: {
+            id: resourceId('Microsoft.Network/loadBalancers/probes', loadBalancer_name, loadBalancer_probes_name)
+          }
+        }
+      }
+      {
+        name: loadBalancer_rules_3389_name
+        properties: {
+          protocol: 'Tcp'
+          frontendPort: 3389
+          backendPort: 3389
+          enableFloatingIP: false
+          idleTimeoutInMinutes: 5
+          loadDistribution: 'SourceIP'
           frontendIPConfiguration: {
             id: resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', loadBalancer_name, loadBalancer_frontEndIPConfig_name)
           } 
