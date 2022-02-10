@@ -5,6 +5,7 @@ $adminUsername = $args[3]
 $adminPassword = $args[4]
 $sqlServerAdminUsername = $args[5]
 $sqlServerAdminPassword = $args[6]
+$licenseKey = $args[7]
 
 $prefixSafe = $prefix.replace("-", "")
 $storageName = (-join($prefixSafe, "storage"))
@@ -69,6 +70,7 @@ az deployment group create --resource-group $resourceGroup `
 --parameters sqlServer_admin_username=$sqlServerAdminUsername `
 --parameters sqlServer_admin_password=$sqlServerAdminPassword `
 --parameters storageAccount_key=$storageAcctKey
+--parameters license_key=$licenseKey
 
 # Create Load Balancer BackEnd Pools
 
@@ -96,3 +98,28 @@ $backendPool.LoadBalancerBackendAddresses.Add($ip1)
 $backendPool.LoadBalancerBackendAddresses.Add($ip2)
 
 Set-AzLoadBalancerBackendAddressPool -InputObject $backendPool
+
+# Attach Inbound NAT Rules
+
+Write-Output "Creating Load Balancer Backend Pools"
+
+$loadBalancerName = (-join($prefix, "-lb"))
+$networkInterface_1Name = (-join($prefix, "-vm1-ni"))
+$networkInterface_2Name = (-join($prefix, "-vm2-ni"))
+
+Write-Output (-join("Load Balancer Name = ", $loadBalancerName))
+Write-Output (-join("Network Interface 1 Name = ", $networkInterface_1Name))
+Write-Output (-join("Network Interface 2 Name = ", $networkInterface_2Name))
+
+$loadBalancer = Get-AzLoadBalancer -ResourceGroupName $resourceGroup -Name $loadBalancerName
+
+$lbnat1 = Get-AzLoadBalancerInboundNatRuleConfig -Name "pjg-octo8-lb-natrules-rdp_1" -LoadBalancer $loadBalancer
+$lbnat2 = Get-AzLoadBalancerInboundNatRuleConfig -Name "pjg-octo8-lb-natrules-rdp_2" -LoadBalancer $loadBalancer
+
+$nic1 = Get-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $networkInterface_1Name
+$nic1.IpConfigurations[0].LoadBalancerInboundNatRules.Add($lbnat1)
+$nic1 | Set-AzNetworkInterface
+
+$nic2 = Get-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $networkInterface_2Name
+$nic2.IpConfigurations[0].LoadBalancerInboundNatRules.Add($lbnat2)
+$nic2 | Set-AzNetworkInterface

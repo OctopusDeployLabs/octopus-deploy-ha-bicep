@@ -1,6 +1,7 @@
 param prefix string
 param location string
 param storageAccount_key string
+param license_key string
 
 @secure()
 param admin_username string
@@ -242,7 +243,7 @@ resource virtualMachine_1_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vm1.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 ${sqlServer_ConnectionString} ${storageAccount_key}'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 ${sqlServer_ConnectionString} ${storageAccount_key} ${license_key}'
     }
   }
 }
@@ -319,7 +320,7 @@ resource virtualMachine_2_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vmx.ps1'
+        'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vmx.ps1 ${sqlServer_ConnectionString} ${storageAccount_key} ${license_key}'
       ]
       commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1'
     }
