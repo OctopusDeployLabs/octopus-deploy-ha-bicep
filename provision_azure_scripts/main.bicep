@@ -1,5 +1,16 @@
-param prefix string = 'pjg-octo'
-param location string = 'northeurope'
+param prefix string
+param location string
+param storageAccount_key string
+
+@secure()
+param admin_username string
+@secure()
+param admin_password string
+
+@secure()
+param sqlServer_admin_username string
+@secure()
+param sqlServer_admin_password string
 
 var virtualMachine_1_name = '${prefix}-vm1'
 var virtualMachine_2_name = '${prefix}-vm2'
@@ -26,6 +37,7 @@ var networkInterface_2_ipAddress = '172.27.0.5'
 
 var sqlServer_name = '${prefix}-sql'
 var sqlServerDatabase_name = '${prefix}-db'
+var sqlServer_ConnectionString =  'Connection String: Data Source=${sqlServer_name}.database.windows.net;Initial Catalog=${sqlServerDatabase_name};Integrated Security=False;User ID=${sqlServer_admin_username};Password=${sqlServer_admin_password}'
 
 var loadBalancer_name = '${prefix}-lb'
 var loadBalancer_ipAddress_name = '${prefix}-lb-ip'
@@ -43,16 +55,6 @@ var loadBalancer_probes_name = '${loadBalancer_name}-probes'
 var natGateway_name = '${prefix}-nat'
 
 var natGateway_ipAddress_name = '${prefix}-nat-ip'
-
-@secure()
-param admin_username string
-@secure()
-param admin_password string
-
-@secure()
-param sqlServer_admin_username string
-@secure()
-param sqlServer_admin_password string
 
 resource networkSecurityGroup_1 'Microsoft.Network/networkSecurityGroups@2020-11-01' = {
   name: networkSecurityGroup_1_name
@@ -240,7 +242,7 @@ resource virtualMachine_1_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vm1.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 ${sqlServer_ConnectionString} ${storageAccount_key}'
     }
   }
 }

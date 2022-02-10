@@ -19,6 +19,7 @@ az deployment group create --resource-group $resourceGroup `
 --parameters prefix=$prefix `
 --parameters location=$location
 
+
 # Create Directories
 
 Write-Output "Creating Directories"
@@ -46,7 +47,19 @@ New-AzStorageDirectory `
 -ShareName $shareName `
 -Path "octoha\TaskLogs"
 
+$storageAcctKey = (Get-AzStorageAccountKey -ResourceGroupName $rgName -Name $saName)[0].Value
+
+Write-Output (-join("Storage Account Key = ", $storageAcctKey))
+
 # Create Main Deployment
+
+Write-Output "Provisioning Main Deployment"
+Write-Output (-join("Prefix = ", $prefix))
+Write-Output (-join("Location = ", $prefix))
+Write-Output (-join("Admin Username = ", $prefix))
+Write-Output (-join("SQL Server Admin Username = ", $prefix))
+Write-Output (-join("Storage Account Key = ", $storageAcctKey))
+
 az deployment group create --resource-group $resourceGroup `
 --template-file main.bicep `
 --parameters prefix=$prefix `
@@ -55,3 +68,4 @@ az deployment group create --resource-group $resourceGroup `
 --parameters admin_password=$adminPassword `
 --parameters sqlServer_admin_username=$sqlServerAdminUsername `
 --parameters sqlServer_admin_password=$sqlServerAdminPassword `
+--parameters storageAccount_key=$storageAcctKey
