@@ -69,3 +69,23 @@ az deployment group create --resource-group $resourceGroup `
 --parameters sqlServer_admin_username=$sqlServerAdminUsername `
 --parameters sqlServer_admin_password=$sqlServerAdminPassword `
 --parameters storageAccount_key=$storageAcctKey
+
+# Create Load Balancer BackEnd Pools
+
+$loadBalancerName = (-join($prefix, "-lb"))
+$vnetName = (-join($prefix, "-vnet"))
+$networkInterface_1_ipAddress = '172.27.0.4'
+$networkInterface_2_ipAddress = '172.27.0.5'
+
+$loadBalancer = Get-AzLoadBalancer -ResourceGroupName $resourceGroup -Name $loadBalancerName
+$backendPool = $lb | Get-AzLoadBalancerBackendAddressPool
+
+$virtualNetwork = Get-AzVirtualNetwork -Name $vnetName -ResourceGroupName $resourceGroup 
+ 
+$ip1 = New-AzLoadBalancerBackendAddressConfig -IpAddress $networkInterface_1_ipAddress -Name "TestVNetRef1" -VirtualNetwork $virtualNetwork.id
+$ip2 = New-AzLoadBalancerBackendAddressConfig -IpAddress $networkInterface_2_ipAddress -Name "TestVNetRef2" -VirtualNetwork $virtualNetwork.id
+ 
+$backendPool.LoadBalancerBackendAddresses.Add($ip1) 
+$backendPool.LoadBalancerBackendAddresses.Add($ip2)
+
+Set-AzLoadBalancerBackendAddressPool -InputObject $backendPool

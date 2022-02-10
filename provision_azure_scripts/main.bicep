@@ -477,6 +477,9 @@ resource networkInterface_2 'Microsoft.Network/networkInterfaces@2020-11-01' = {
 resource loadBalancer 'Microsoft.Network/loadBalancers@2020-11-01' = {
   name: loadBalancer_name
   location: location
+  sku: {
+    name: 'Standard'
+  }
   properties: {
     frontendIPConfigurations: [
       {
@@ -606,7 +609,7 @@ resource loadBalancer_ipAddress 'Microsoft.Network/publicIPAddresses@2020-11-01'
   name: loadBalancer_ipAddress_name
   location: location
   sku: {
-    name: 'Basic'
+    name: 'Standard'
     tier: 'Regional'
   }
   properties: {
