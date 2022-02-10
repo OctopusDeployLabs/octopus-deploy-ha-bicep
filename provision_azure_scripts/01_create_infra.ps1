@@ -101,7 +101,7 @@ Set-AzLoadBalancerBackendAddressPool -InputObject $backendPool
 
 # Attach Inbound NAT Rules
 
-Write-Output "Creating Load Balancer Backend Pools"
+Write-Output "Attaching Inbound NAT Rules"
 
 $loadBalancerName = (-join($prefix, "-lb"))
 $networkInterface_1Name = (-join($prefix, "-vm1-ni"))
