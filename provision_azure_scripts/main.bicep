@@ -374,7 +374,7 @@ resource smb_1 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01
     sourceAddressPrefix: '*'
     destinationAddressPrefix: '*'
     access: 'Allow'
-    priority: 300
+    priority: 310
     direction: 'Inbound'
     sourcePortRanges: []
     destinationPortRanges: []
@@ -393,7 +393,7 @@ resource smb_2 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01
     sourceAddressPrefix: '*'
     destinationAddressPrefix: '*'
     access: 'Allow'
-    priority: 300
+    priority: 310
     direction: 'Inbound'
     sourcePortRanges: []
     destinationPortRanges: []
@@ -617,28 +617,20 @@ resource loadBalancer_ipAddress 'Microsoft.Network/publicIPAddresses@2020-11-01'
   }
 }
 
-resource natGateway 'Microsoft.Network/natGateways@2021-05-01' = {
+resource natGateway 'Microsoft.Network/natGateways@2020-11-01' = {
   name: natGateway_name
-  location: location
+  location: 'northeurope'
   sku: {
     name: 'Standard'
   }
   properties: {
-    idleTimeoutInMinutes: 5
+    idleTimeoutInMinutes: 4
     publicIpAddresses: [
       {
         id: natGateway_ipAddress.id
       }
     ]
-    publicIpPrefixes: [
-      {
-        id: 'string'
-      }
-    ]
   }
-  zones: [
-    'string'
-  ]
 }
 
 resource natGateway_ipAddress 'Microsoft.Network/publicIPAddresses@2020-11-01' = {
@@ -680,7 +672,6 @@ resource sqlServerDatabase 'Microsoft.Sql/servers/databases@2021-05-01-preview' 
   name: sqlServerDatabase_name
   location: location
   properties: {
-    collation: 'collation'
-
+    collation: 'SQL_Latin1_General_CP1_CI_AS'
   }
 }

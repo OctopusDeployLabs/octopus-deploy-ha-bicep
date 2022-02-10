@@ -6,9 +6,10 @@ $adminPassword = $args[4]
 $sqlServerAdminUsername = $args[5]
 $sqlServerAdminPassword = $args[6]
 
-$prefixSafe = $prefix.replace(" - ", "")
+$prefixSafe = $prefix.replace("-", "")
 $storageName = (-join($prefixSafe, "storage"))
 $shareName = (-join($prefix, "-fileshare"))
+
 # Create Storage
 
 Write-Output "Creating Storage"
@@ -18,7 +19,6 @@ az deployment group create --resource-group $resourceGroup `
 --template-file storage.bicep `
 --parameters prefix=$prefix `
 --parameters location=$location
-
 
 # Create Directories
 
