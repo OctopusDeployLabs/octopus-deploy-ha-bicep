@@ -637,7 +637,7 @@ resource natGateway_ipAddress 'Microsoft.Network/publicIPAddresses@2020-11-01' =
   name: natGateway_ipAddress_name
   location: location
   sku: {
-    name: 'Basic'
+    name: 'Standard'
     tier: 'Regional'
   }
   properties: {
