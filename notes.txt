@@ -1,0 +1,5 @@
+Make sure to enable SQL Server access from Azure Resources
+
+Why is the SQL Server Password not Hashed in the script?
+
+Need a NAT Gateway for Internet Access
