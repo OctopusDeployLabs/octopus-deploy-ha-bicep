@@ -320,9 +320,9 @@ resource virtualMachine_2_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vmx.ps1 ${sqlServer_ConnectionString} ${storageAccount_key} ${license_key}'
+        'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vmx.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1 ${sqlServer_ConnectionString} ${storageAccount_key} ${license_key}'
     }
   }
 }

@@ -87,7 +87,7 @@ Write-Output (-join("IP 1 Address = ", $networkInterface_1_ipAddress))
 Write-Output (-join("IP 2 Address = ", $networkInterface_2_ipAddress))
 
 $loadBalancer = Get-AzLoadBalancer -ResourceGroupName $resourceGroup -Name $loadBalancerName
-$backendPool = $lb | Get-AzLoadBalancerBackendAddressPool
+$backendPool = $loadBalancer | Get-AzLoadBalancerBackendAddressPool
 
 $virtualNetwork = Get-AzVirtualNetwork -Name $vnetName -ResourceGroupName $resourceGroup 
  
@@ -107,14 +107,17 @@ $loadBalancerName = (-join($prefix, "-lb"))
 $networkInterface_1Name = (-join($prefix, "-vm1-ni"))
 $networkInterface_2Name = (-join($prefix, "-vm2-ni"))
 
+$lbnat1_name = (-join($prefix, "-lb-natrules-rdp_1"))
+$lbnat2_name = (-join($prefix, "-lb-natrules-rdp_2"))
+
 Write-Output (-join("Load Balancer Name = ", $loadBalancerName))
 Write-Output (-join("Network Interface 1 Name = ", $networkInterface_1Name))
 Write-Output (-join("Network Interface 2 Name = ", $networkInterface_2Name))
 
 $loadBalancer = Get-AzLoadBalancer -ResourceGroupName $resourceGroup -Name $loadBalancerName
 
-$lbnat1 = Get-AzLoadBalancerInboundNatRuleConfig -Name "pjg-octo8-lb-natrules-rdp_1" -LoadBalancer $loadBalancer
-$lbnat2 = Get-AzLoadBalancerInboundNatRuleConfig -Name "pjg-octo8-lb-natrules-rdp_2" -LoadBalancer $loadBalancer
+$lbnat1 = Get-AzLoadBalancerInboundNatRuleConfig -Name $lbnat1_name -LoadBalancer $loadBalancer
+$lbnat2 = Get-AzLoadBalancerInboundNatRuleConfig -Name $lbnat2_name -LoadBalancer $loadBalancer
 
 $nic1 = Get-AzNetworkInterface -ResourceGroupName $resourceGroup -Name $networkInterface_1Name
 $nic1.IpConfigurations[0].LoadBalancerInboundNatRules.Add($lbnat1)
