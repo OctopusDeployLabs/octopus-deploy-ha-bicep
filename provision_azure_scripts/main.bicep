@@ -498,7 +498,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-11-01' = {
               name: '${loadBalancer_backEndAddressPool_name}-address-1'
               properties: {
                 virtualNetwork: {
-                  id: networkInterface_1.id
+                  id: vnet.id
                 }
                 ipAddress: networkInterface_1_ipAddress
               }
@@ -507,7 +507,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-11-01' = {
               name: '${loadBalancer_backEndAddressPool_name}-address-2'
               properties: {
                 virtualNetwork: {
-                  id: networkInterface_2.id
+                  id: vnet.id
                 }
                 ipAddress: networkInterface_2_ipAddress
               }
