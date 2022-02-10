@@ -1,8 +1,6 @@
 param prefix string = 'pjg-octo'
 param location string = 'northeurope'
 
-var prefix_safe = replace(prefix, '-', '')
-
 var virtualMachine_1_name = '${prefix}-vm1'
 var virtualMachine_2_name = '${prefix}-vm2'
 

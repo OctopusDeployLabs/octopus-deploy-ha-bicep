@@ -18,18 +18,10 @@ var vnet_name = '${prefix}-vnet'
 var networkInterface_1_name = '${virtualMachine_1_name}-ni'
 var networkInterface_2_name = '${virtualMachine_2_name}-ni'
 
-var sqlServer_name = '${prefix}-sql'
-var sqlServerDatabase_name = '${prefix}-db'
-
 @secure()
 param admin_username string
 @secure()
 param admin_password string
-
-@secure()
-param sqlServer_admin_username string
-@secure()
-param sqlServer_admin_password string
 
 resource networkSecurityGroup_1 'Microsoft.Network/networkSecurityGroups@2020-11-01' = {
   name: networkSecurityGroup_1_name
