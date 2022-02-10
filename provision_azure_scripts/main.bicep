@@ -1,6 +1,8 @@
 param prefix string = 'pjg-octo'
 param location string = 'northeurope'
 
+var prefix_safe = replace(prefix, '-', '')
+
 var virtualMachine_1_name = '${prefix}-vm1'
 var virtualMachine_2_name = '${prefix}-vm2'
 
@@ -53,9 +55,6 @@ param admin_password string
 param sqlServer_admin_username string
 @secure()
 param sqlServer_admin_password string
-
-@secure()
-param octopus_license string
 
 resource networkSecurityGroup_1 'Microsoft.Network/networkSecurityGroups@2020-11-01' = {
   name: networkSecurityGroup_1_name
@@ -241,13 +240,12 @@ resource virtualMachine_1_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        'https://raw.githubusercontent.com/Azure/azure-docs-json-samples/master/tutorial-vm-extension/installWebServer.ps1'
+        'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/install_vm1.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File installWebServer.ps1'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1'
     }
   }
 }
-
 
 resource virtualMachine_2 'Microsoft.Compute/virtualMachines@2021-07-01' = {
   name: virtualMachine_2_name
@@ -306,6 +304,24 @@ resource virtualMachine_2 'Microsoft.Compute/virtualMachines@2021-07-01' = {
       bootDiagnostics: {
         enabled: true
       }
+    }
+  }
+}
+
+resource virtualMachine_2_InstallOcto 'Microsoft.Compute/virtualMachines/extensions@2021-04-01' = {
+  parent: virtualMachine_2
+  name: virtualMachine_2_InstallOcto_name
+  location: location
+  properties: {
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.7'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: [
+        'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/install_vmx.ps1'
+      ]
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1'
     }
   }
 }

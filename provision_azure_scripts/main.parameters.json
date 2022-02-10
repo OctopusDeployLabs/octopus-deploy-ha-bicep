@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "prefix": {
-        "value": "pjg-octo"
+        "value": "pjg-octo1"
       },
       "location" :{
           "value": "northeurope"
