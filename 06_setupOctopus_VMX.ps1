@@ -1,6 +1,11 @@
 $serverNodeName = $env:computername
-$masterKey = $args[0]
-$connectionString = $args[1]
+$connectionString = $args[0]
+$masterKey = $args[1]
+
+if(!$masterKey)
+{
+    $masterKey = Get-Content -Path "C:\Octopus\Artifacts\MasterKey.txt" 
+}
 
 # Create Instance
 

@@ -4,6 +4,9 @@ param location string = 'northeurope'
 var virtualMachine_1_name = '${prefix}-vm1'
 var virtualMachine_2_name = '${prefix}-vm2'
 
+var virtualMachine_1_InstallOcto_name = '${virtualMachine_1_name}-installocto'
+var virtualMachine_2_InstallOcto_name = '${virtualMachine_2_name}-installocto'
+
 var virtualMachine_1_disk_name = '${virtualMachine_1_name}-osdisk'
 var virtualMachine_2_disk_name = '${virtualMachine_2_name}-osdisk'
 
@@ -226,6 +229,25 @@ resource virtualMachine_1 'Microsoft.Compute/virtualMachines@2021-07-01' = {
     }
   }
 }
+
+resource virtualMachine_1_InstallOcto 'Microsoft.Compute/virtualMachines/extensions@2021-04-01' = {
+  parent: virtualMachine_1
+  name: virtualMachine_1_InstallOcto_name
+  location: location
+  properties: {
+    publisher: 'Microsoft.Compute'
+    type: 'CustomScriptExtension'
+    typeHandlerVersion: '1.7'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: [
+        'https://raw.githubusercontent.com/Azure/azure-docs-json-samples/master/tutorial-vm-extension/installWebServer.ps1'
+      ]
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File installWebServer.ps1'
+    }
+  }
+}
+
 
 resource virtualMachine_2 'Microsoft.Compute/virtualMachines@2021-07-01' = {
   name: virtualMachine_2_name
