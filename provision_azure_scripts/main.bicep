@@ -243,7 +243,7 @@ resource virtualMachine_1_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vm1.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 ${sqlServer_ConnectionString} ${storageAccount_key} ${license_key}'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 "${sqlServer_ConnectionString}" "${storageAccount_key}" "${license_key}"'
     }
   }
 }
@@ -322,7 +322,7 @@ resource virtualMachine_2_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vmx.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1 ${sqlServer_ConnectionString} ${storageAccount_key} ${license_key}'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1 "${sqlServer_ConnectionString}" "${storageAccount_key}" "${license_key}"'
     }
   }
 }
