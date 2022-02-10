@@ -69,7 +69,7 @@ az deployment group create --resource-group $resourceGroup `
 --parameters admin_password=$adminPassword `
 --parameters sqlServer_admin_username=$sqlServerAdminUsername `
 --parameters sqlServer_admin_password=$sqlServerAdminPassword `
---parameters storageAccount_key=$storageAcctKey
+--parameters storageAccount_key=$storageAcctKey `
 --parameters license_key=$licenseKey
 
 # Create Load Balancer BackEnd Pools
