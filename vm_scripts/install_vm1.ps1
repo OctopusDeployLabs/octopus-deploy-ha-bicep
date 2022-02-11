@@ -77,7 +77,7 @@ $outpath = "$PSScriptRoot\03_setupOctopus_VM1.ps1"
 $ProgressPreference = 'SilentlyContinue'
 Invoke-WebRequest -Uri $url -OutFile $outpath
 
-$octoargs = @("-ExecutionPolicy", "Unrestricted", "-File", $outpath, "$ConnectionString", "$UserName", "$Email", "$Password", "$License")
+$octoargs = @("-ExecutionPolicy", "Unrestricted", "-File", $outpath, """$ConnectionString""", "$UserName", "$Email", "$Password", "$LicenseKey")
 
 Start-Process "powershell.exe" -ArgumentList $octoargs -Wait -NoNewWindow
 
