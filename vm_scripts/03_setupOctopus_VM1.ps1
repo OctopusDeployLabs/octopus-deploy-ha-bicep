@@ -3,11 +3,24 @@ $connectionString = $args[0]
 $username = $args[1]
 $email = $args[2]
 $password = $args[3]
-$license = $args[4]
+$licenseKeySafe = $args[4]
 
-$LicenseKey = $LicenseKey.replace('|', '"')
-$licenseBytes = [Text.Encoding]::Unicode.GetBytes($license)
-$licenseBase64 = [System.Convert]::ToBase64String($licenseBytes)
+$LicenseKey = $LicenseKeySafe.replace('|', '"')
+
+$licenseKeyBytes = [Text.Encoding]::Unicode.GetBytes($LicenseKey)
+$licenseKeyBase64 = [System.Convert]::ToBase64String($licenseKeyBytes)
+
+$LogFileLocation = "C:\log.txt"
+
+# Log Args to File
+
+"Beginning Setup Octopus Script" | Out-File -FilePath $LogFileLocation -append
+
+(-join("Server Node Name = ", $serverNodeName)) | Out-File -FilePath $LogFileLocation -append
+(-join("Connection String = ", $connectionString)) | Out-File -FilePath $LogFileLocation -append
+(-join("Username = ", $username)) | Out-File -FilePath $LogFileLocation -append
+(-join("License Key (Safe) = ", $licenseKeySafe)) | Out-File -FilePath $LogFileLocation -append
+(-join("License Key = ", $LicenseKey)) | Out-File -FilePath $LogFileLocation -append
 
 # Create Instance
 
@@ -91,14 +104,14 @@ Start-Process "C:\Program Files\Octopus Deploy\Octopus\Octopus.Server.exe" -Argu
 # License
 
 Write-Output "Adding License"
-Write-Output (-join("License (String) = ", $license))
-Write-Output (-join("License (Base64) = ", $licenseBase64))
+Write-Output (-join("License (String) = ", $licenseKey))
+Write-Output (-join("License (Base64) = ", $licenseKeyBase64))
 
 $octoargs = @("license",
           "--instance",
           '"OctopusServer"',
           "--licenseBase64",
-          (-join('"', $licenseBase64, '"')))
+          (-join('"', $licenseKeyBase64, '"')))
 
 Start-Process "C:\Program Files\Octopus Deploy\Octopus\Octopus.Server.exe" -ArgumentList $octoargs -Wait -NoNewWindow
 

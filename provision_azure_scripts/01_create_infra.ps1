@@ -8,7 +8,7 @@ $sqlServerAdminUsername = $args[6]
 $sqlServerAdminPassword = $args[7]
 $licenseKey = $args[8]
 
-$licenseKeySafe = $licenseKeySafe.replace('"', '|')
+$licenseKeySafe = $licenseKey.replace('"', '|')
 
 $prefixSafe = $prefix.replace("-", "")
 $storageName = (-join($prefixSafe, "storage"))
