@@ -69,7 +69,7 @@ Start-Process "powershell.exe" -ArgumentList $octoargs -Wait -NoNewWindow
 
 "03 - Setup Octopus Node" | Out-File -FilePath $LogFileLocation -append
 
-$url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/03_setupOctopus_VMX.ps1"
+$url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/06_setupOctopus_VMX.ps1"
 
 (-join("Getting File from = ", $url)) | Out-File -FilePath $LogFileLocation -append
 
