@@ -418,6 +418,158 @@ resource smb_2 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01
   }
 }
 
+resource httpin_1 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_1
+  name: 'HTTP_In'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '80'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 350
+    direction: 'Inbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
+resource httpin_2 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_2
+  name: 'HTTP_In'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '80'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 350
+    direction: 'Inbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
+resource httpsin_1 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_1
+  name: 'HTTPS_In'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '443'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 360
+    direction: 'Inbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
+resource httpsin_2 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_2
+  name: 'HTTPS_In'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '443'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 360
+    direction: 'Inbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
+resource httpout_1 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_1
+  name: 'HTTP_Out'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '80'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 370
+    direction: 'Outbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
+resource httpout_2 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_2
+  name: 'HTTP_Out'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '80'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 370
+    direction: 'Outbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
+resource httpsout_1 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_1
+  name: 'HTTPS_Out'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '443'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 380
+    direction: 'Outbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
+resource httpsout_2 'Microsoft.Network/networkSecurityGroups/securityRules@2020-11-01' = {
+  parent: networkSecurityGroup_2
+  name: 'HTTPS_Out'
+  properties: {
+    protocol: 'Tcp'
+    sourcePortRange: '*'
+    destinationPortRange: '443'
+    sourceAddressPrefix: '*'
+    destinationAddressPrefix: '*'
+    access: 'Allow'
+    priority: 380
+    direction: 'Outbound'
+    sourcePortRanges: []
+    destinationPortRanges: []
+    sourceAddressPrefixes: []
+    destinationAddressPrefixes: []
+  }
+}
+
 resource subnet 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' = {
   parent: vnet
   name: 'default'
