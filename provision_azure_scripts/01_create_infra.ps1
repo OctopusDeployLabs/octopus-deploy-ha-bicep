@@ -2,10 +2,11 @@ $resourceGroup = $args[0]
 $prefix = $args[1]
 $location = $args[2]
 $adminUsername = $args[3]
-$adminPassword = $args[4]
-$sqlServerAdminUsername = $args[5]
-$sqlServerAdminPassword = $args[6]
-$licenseKey = $args[7]
+$adminEmail = $args[4]
+$adminPassword = $args[5]
+$sqlServerAdminUsername = $args[6]
+$sqlServerAdminPassword = $args[7]
+$licenseKey = $args[8]
 
 $prefixSafe = $prefix.replace("-", "")
 $storageName = (-join($prefixSafe, "storage"))
@@ -66,6 +67,7 @@ az deployment group create --resource-group $resourceGroup `
 --parameters prefix=$prefix `
 --parameters location=$location `
 --parameters admin_username=$adminUsername `
+--parameters admin_email=$adminEmail `
 --parameters admin_password=$adminPassword `
 --parameters sqlServer_admin_username=$sqlServerAdminUsername `
 --parameters sqlServer_admin_password=$sqlServerAdminPassword `
