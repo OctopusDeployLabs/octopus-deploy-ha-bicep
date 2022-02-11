@@ -49,7 +49,8 @@ var loadBalancer_rules_443_name = '${loadBalancer_name}-rules-443'
 var loadBalancer_natrules_rdp_1_name = '${loadBalancer_name}-natrules-rdp_1'
 var loadBalancer_natrules_rdp_2_name = '${loadBalancer_name}-natrules-rdp_2'
 
-var loadBalancer_probes_name = '${loadBalancer_name}-probes'
+var loadBalancer_probes_http_name = '${loadBalancer_name}-http-probe'
+var loadBalancer_probes_https_name = '${loadBalancer_name}-https-probe'
 
 var natGateway_name = '${prefix}-nat'
 
@@ -704,7 +705,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-11-01' = {
             id:  resourceId('Microsoft.Network/loadBalancers/backendAddressPools', loadBalancer_name, loadBalancer_backEndAddressPool_name)
           }
           probe: {
-            id: resourceId('Microsoft.Network/loadBalancers/probes', loadBalancer_name, loadBalancer_probes_name)
+            id: resourceId('Microsoft.Network/loadBalancers/probes', loadBalancer_name, loadBalancer_probes_http_name)
           }
         }
       }
@@ -724,7 +725,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-11-01' = {
             id:  resourceId('Microsoft.Network/loadBalancers/backendAddressPools', loadBalancer_name, loadBalancer_backEndAddressPool_name)
           }
           probe: {
-            id: resourceId('Microsoft.Network/loadBalancers/probes', loadBalancer_name, loadBalancer_probes_name)
+            id: resourceId('Microsoft.Network/loadBalancers/probes', loadBalancer_name, loadBalancer_probes_https_name)
           }
         }
       }
@@ -761,10 +762,19 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-11-01' = {
     ]
     probes: [
       {
-        name: loadBalancer_probes_name
+        name: loadBalancer_probes_http_name
         properties: {
           protocol: 'Tcp'
           port: 80
+          intervalInSeconds: 5
+          numberOfProbes: 2
+        }
+      }
+      {
+        name: loadBalancer_probes_https_name
+        properties: {
+          protocol: 'Tcp'
+          port: 443
           intervalInSeconds: 5
           numberOfProbes: 2
         }
