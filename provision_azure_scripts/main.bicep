@@ -3,12 +3,11 @@ param location string
 param storageAccount_key string
 param license_key string
 
-@secure()
 param admin_username string
+param admin_email string
 @secure()
 param admin_password string
 
-@secure()
 param sqlServer_admin_username string
 @secure()
 param sqlServer_admin_password string
@@ -56,6 +55,10 @@ var loadBalancer_probes_name = '${loadBalancer_name}-probes'
 var natGateway_name = '${prefix}-nat'
 
 var natGateway_ipAddress_name = '${prefix}-nat-ip'
+
+var prefix_safe = replace(prefix, '-', '')
+var storageAccount_name = '${prefix_safe}storage'
+var storageAccount_FileShare_name = '${prefix}-fileshare'
 
 resource networkSecurityGroup_1 'Microsoft.Network/networkSecurityGroups@2020-11-01' = {
   name: networkSecurityGroup_1_name
@@ -243,7 +246,7 @@ resource virtualMachine_1_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vm1.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 "${sqlServer_ConnectionString}" "${storageAccount_key}" "${license_key}"'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 "${storageAccount_name}" "${storageAccount_FileShare_name}" "${sqlServer_ConnectionString}" "${storageAccount_key}" "${admin_username}" "${admin_email} "${admin_password}" "${license_key}"'
     }
   }
 }
@@ -322,7 +325,7 @@ resource virtualMachine_2_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vmx.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1 "${sqlServer_ConnectionString}" "${storageAccount_key}" "${license_key}"'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1 "${storageAccount_name}" "${storageAccount_FileShare_name}" "${sqlServer_ConnectionString}" "${storageAccount_key}" "${admin_username}" "${admin_email} "${admin_password}" "${license_key}"'
     }
   }
 }
