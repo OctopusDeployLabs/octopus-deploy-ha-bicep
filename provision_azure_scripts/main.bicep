@@ -3,7 +3,7 @@ param location string
 param storageAccount_key string
 param license_key string
 
-var license_key_safe = replace(license_key, '"', '\'')
+var license_key_safe = replace(license_key, '"', '|')
 
 param admin_username string
 param admin_email string

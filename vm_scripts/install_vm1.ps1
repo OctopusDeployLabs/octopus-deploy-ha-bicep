@@ -8,6 +8,9 @@ $UserName = $args[4]
 $Email = $args[5]
 $Password = $args[6]
 $LicenseKey = $args[7]
+
+$LicenseKey = $LicenseKey.replace('|', '"')
+
 $StorageDirectoryName = "octoha"
 $LogFileLocation = "C:\log.txt"
 
