@@ -36,6 +36,20 @@ Leave the quotes as they are..
 '<License Signature="JHGiuygYUgjhBYGkjbYYUI6786YIUhjkg986ghk"><LicensedTo>Octopus</LicensedTo><LicenseKey>12345-54321-11223-34455</LicenseKey><Version>2.0<!-- License Schema Version --></Version><ValidFrom>2022-02-03</ValidFrom><MaintenanceExpires>2024-02-03</MaintenanceExpires><ProjectLimit>Unlimited</ProjectLimit><MachineLimit>Unlimited</MachineLimit><UserLimit>Unlimited</UserLimit><NodeLimit>Unlimited</NodeLimit></License>'
 ```
 
+You can then access the VMs using RDP;
+
+### VM1
+
+- `<Load Balancer Public IP>`:3389
+
+### VM2
+
+- `<Load Balancer Public IP>`:3390
+
+The UI can be access using HTTP only currently at;
+
+`http://<Load Balancer Public IP>`
+
 ## Resources Provisioned in Azure
 
 An example deployment looks like this;
