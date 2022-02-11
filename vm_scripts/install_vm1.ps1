@@ -18,8 +18,8 @@ $LogFileLocation = "C:\log.txt"
 
 (-join("Storage Account Name = ", $StorageName)) | Out-File -FilePath $LogFileLocation -append
 (-join("Storage File Share Name = ", $StorageFileShareName)) | Out-File -FilePath $LogFileLocation -append
-(-join("Connection String = ", $ConnectionString)) | Out-File -FilePath $LogFileLocation -append
 (-join("Account Key = ", $StorageAccountKey)) | Out-File -FilePath $LogFileLocation -append
+(-join("Connection String = ", $ConnectionString)) | Out-File -FilePath $LogFileLocation -append
 (-join("Username = ", $UserName)) | Out-File -FilePath $LogFileLocation -append
 (-join("Email = ", $Email)) | Out-File -FilePath $LogFileLocation -append
 (-join("Password = ", $Password)) | Out-File -FilePath $LogFileLocation -append

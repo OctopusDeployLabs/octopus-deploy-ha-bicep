@@ -3,9 +3,25 @@ $storagePass=$args[1]
 $storageShare=$args[2]
 $storageDirectory=$args[3]
 
+$LogFileLocation = "C:\log.txt"
+
+# Log Args to File
+
+"Beginning Add Symbolic Links Script" | Out-File -FilePath $LogFileLocation -append
+
+(-join("Storage Account Name = ", $StorageName)) | Out-File -FilePath $LogFileLocation -append
+(-join("Account Key = ", $storagePass)) | Out-File -FilePath $LogFileLocation -append
+(-join("Storage File Share Name = ", $storageShare)) | Out-File -FilePath $LogFileLocation -append
+(-join("Storage File Share Directory = ", $storageDirectory)) | Out-File -FilePath $LogFileLocation -append
+
 # Add the Authentication for the symbolic links. You can get this from the Azure Portal.
 
-cmdkey /add:$storageName.file.core.windows.net /user:Azure\$storageName /pass:$storagePass
+try {
+    cmdkey /add:$storageName.file.core.windows.net /user:Azure\$storageName /pass:$storagePass
+}
+catch {
+    (-join("Error Adding Authentication = ", $_.ScriptStackTrace)) | Out-File -FilePath $LogFileLocation -append
+}
 
 # Add Octopus folder to add symbolic links
 

@@ -8,6 +8,8 @@ $sqlServerAdminUsername = $args[6]
 $sqlServerAdminPassword = $args[7]
 $licenseKey = $args[8]
 
+$licenseKeySafe = $licenseKeySafe.replace('"', '|')
+
 $prefixSafe = $prefix.replace("-", "")
 $storageName = (-join($prefixSafe, "storage"))
 $shareName = (-join($prefix, "-fileshare"))
@@ -59,8 +61,11 @@ Write-Output "Provisioning Main Deployment"
 Write-Output (-join("Prefix = ", $prefix))
 Write-Output (-join("Location = ", $location))
 Write-Output (-join("Admin Username = ", $adminUsername))
+Write-Output (-join("Admin Email = ", $adminEmail))
 Write-Output (-join("SQL Server Admin Username = ", $sqlServerAdminUsername))
 Write-Output (-join("Storage Account Key = ", $storageAcctKey))
+Write-Output (-join("License Key = ", $licenseKey))
+Write-Output (-join("License Key Safe = ", $licenseKeySafe))
 
 az deployment group create --resource-group $resourceGroup `
 --template-file main.bicep `
@@ -72,7 +77,7 @@ az deployment group create --resource-group $resourceGroup `
 --parameters sqlServer_admin_username=$sqlServerAdminUsername `
 --parameters sqlServer_admin_password=$sqlServerAdminPassword `
 --parameters storageAccount_key=$storageAcctKey `
---parameters license_key=$licenseKey
+--parameters license_key=$licenseKeySafe
 
 # Create Load Balancer BackEnd Pools
 
