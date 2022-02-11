@@ -2,8 +2,8 @@
 
 $StorageName = $args[0]
 $StorageFileShareName = $args[1]
-$ConnectionString = $args[2]
-$StorageAccountKey = $args[3]
+$StorageAccountKey = $args[2]
+$ConnectionString = $args[3]
 $UserName = $args[4]
 $Email = $args[5]
 $Password = $args[6]
@@ -66,11 +66,11 @@ Start-Process "powershell.exe" -ArgumentList $octoargs -Wait -NoNewWindow
 
 "03 - Setup Octopus" | Out-File -FilePath $LogFileLocation -append
 
-$url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/03_setupOctopus.ps1"
+$url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/03_setupOctopus_VM1.ps1"
 
 (-join("Getting File from = ", $url)) | Out-File -FilePath $LogFileLocation -append
 
-$outpath = "$PSScriptRoot\03_setupOctopus.ps1"
+$outpath = "$PSScriptRoot\03_setupOctopus_VM1.ps1"
 
 (-join("Saving File to = ", $outpath)) | Out-File -FilePath $LogFileLocation -append
 
