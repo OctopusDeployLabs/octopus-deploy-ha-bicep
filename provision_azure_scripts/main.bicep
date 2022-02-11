@@ -3,6 +3,8 @@ param location string
 param storageAccount_key string
 param license_key string
 
+var license_key_safe = replace(license_key, '"', '\'')
+
 param admin_username string
 param admin_email string
 @secure()
@@ -246,7 +248,7 @@ resource virtualMachine_1_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vm1.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 "${storageAccount_name}" "${storageAccount_FileShare_name}" "${storageAccount_key}" "${sqlServer_ConnectionString}" "${admin_username}" "${admin_email} "${admin_password}" "${license_key}"'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vm1.ps1 "${storageAccount_name}" "${storageAccount_FileShare_name}" "${storageAccount_key}" "${sqlServer_ConnectionString}" "${admin_username}" "${admin_email} "${admin_password}" "${license_key_safe}"'
     }
   }
 }
@@ -325,7 +327,7 @@ resource virtualMachine_2_InstallOcto 'Microsoft.Compute/virtualMachines/extensi
       fileUris: [
         'https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/install_vmx.ps1'
       ]
-      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1 "${storageAccount_name}" "${storageAccount_FileShare_name}" "${storageAccount_key}" "${sqlServer_ConnectionString}" "${admin_username}" "${admin_email} "${admin_password}" "${license_key}"'
+      commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted -File install_vmx.ps1 "${storageAccount_name}" "${storageAccount_FileShare_name}" "${storageAccount_key}" "${sqlServer_ConnectionString}" "${admin_username}" "${admin_email} "${admin_password}" "${license_key_safe}"'
     }
   }
 }
