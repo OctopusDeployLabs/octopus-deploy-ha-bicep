@@ -65,11 +65,11 @@ $octoargs = @("-ExecutionPolicy", "Unrestricted", "-File", $outpath)
 
 Start-Process "powershell.exe" -ArgumentList $octoargs -Wait -NoNewWindow
 
-# 03 - Setup Octopus
+# 03 - Setup Octopus Node
 
-"03 - Setup Octopus" | Out-File -FilePath $LogFileLocation -append
+"03 - Setup Octopus Node" | Out-File -FilePath $LogFileLocation -append
 
-$url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/03_setupOctopus_VM1.ps1"
+$url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/03_setupOctopus_VMX.ps1"
 
 (-join("Getting File from = ", $url)) | Out-File -FilePath $LogFileLocation -append
 
@@ -80,7 +80,7 @@ $outpath = "$PSScriptRoot\03_setupOctopus_VM1.ps1"
 $ProgressPreference = 'SilentlyContinue'
 Invoke-WebRequest -Uri $url -OutFile $outpath
 
-$octoargs = @("-ExecutionPolicy", "Unrestricted", "-File", $outpath, """$ConnectionString""", "$UserName", "$Email", "$Password", """$LicenseKey""")
+$octoargs = @("-ExecutionPolicy", "Unrestricted", "-File", $outpath, """$ConnectionString""")
 
 Start-Process "powershell.exe" -ArgumentList $octoargs -Wait -NoNewWindow
 
@@ -93,25 +93,6 @@ $url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_
 (-join("Getting File from = ", $url)) | Out-File -FilePath $LogFileLocation -append
 
 $outpath = "$PSScriptRoot\04_addFirewallRules.ps1"
-
-(-join("Saving File to = ", $outpath)) | Out-File -FilePath $LogFileLocation -append
-
-$ProgressPreference = 'SilentlyContinue'
-Invoke-WebRequest -Uri $url -OutFile $outpath
-
-$octoargs = @("-ExecutionPolicy", "Unrestricted", "-File", $outpath)
-
-Start-Process "powershell.exe" -ArgumentList $octoargs -Wait -NoNewWindow
-
-# 05 - Get Master Key
-
-"05 - Get Master Key" | Out-File -FilePath $LogFileLocation -append
-
-$url = "https://raw.githubusercontent.com/pjgpetecodes/octopusdeploy_ha/main/vm_scripts/05_getMasterKey.ps1"
-
-(-join("Getting File from = ", $url)) | Out-File -FilePath $LogFileLocation -append
-
-$outpath = "$PSScriptRoot\05_getMasterKey.ps1"
 
 (-join("Saving File to = ", $outpath)) | Out-File -FilePath $LogFileLocation -append
 
