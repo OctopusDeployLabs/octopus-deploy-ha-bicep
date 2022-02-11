@@ -5,6 +5,7 @@ $email = $args[2]
 $password = $args[3]
 $license = $args[4]
 
+$LicenseKey = $LicenseKey.replace('|', '"')
 $licenseBytes = [Text.Encoding]::Unicode.GetBytes($license)
 $licenseBase64 = [System.Convert]::ToBase64String($licenseBytes)
 
