@@ -135,7 +135,7 @@ This Bicep Script will provision the following resources;
 - Creste 1x VNET with address prefix of 172.27.0.0/16
 - Create 2x Windows Server 2022 Standard D2s v3 VMs
 - Run Powershell Extension to execute `install_vm1.ps1` and `install_vmx.ps1` on VMs after all services provisioned
-` Create RDP, SMB, HTTP and HTTPS security Rules
+- Create RDP, SMB, HTTP and HTTPS security Rules
 - Create a Subnet with an address prefix of 172.27.0.0/24
 - Create 2x Network Interfaces for VMs and attach to Subnet
 - Create a Load Balancer
