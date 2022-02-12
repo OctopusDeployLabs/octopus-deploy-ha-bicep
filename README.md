@@ -50,6 +50,25 @@ The UI can be access using HTTP only currently at;
 
 `http://<Load Balancer Public IP>`
 
+## Prerequisites
+
+You will need the following
+
+- An Active Azure Subscription
+- The Azure CLI, signed in using az login at a powershell terminal
+- An Octopus Deploy License with unlimited Nodes
+- 
+
+## Useful Links
+
+[Octopus Deploy HA](https://octopus.com/docs/administration/high-availability)
+
+[How Octopus Deploy HA Works](https://octopus.com/docs/administration/high-availability/how-high-availability-works)
+
+[Designing for Octopus HA in Azure](https://octopus.com/docs/administration/high-availability/design/octopus-for-high-availability-on-azure)
+
+[Configuring Octopus High Availability in Azure by Derek Campbell](https://octopus.com/blog/configure-octopus-high-availability-in-azure)
+
 ## Resources Provisioned in Azure
 
 An example deployment looks like this;
@@ -63,8 +82,20 @@ An example deployment looks like this;
 This Bicep Script will provision the following resources;
 
 - 1x Storage Account
+    - Premium LRS
 - 1x File Service
 - 1x FileShare
+
+#### Parameters
+
+1) `prefix` - Resource Prefix
+2) `location` - Azure Region
+
+#### Operations
+
+- Create a Premium LRS Storage Account
+- Create a File Service
+- Create a File Share
 
 ### `main.bicep`
 
@@ -75,6 +106,7 @@ This Bicep Script will provision the following resources;
 - 2x VM
     - Windows Server 2022 Azure Edition 
     - Standard D2s v3 (2 vcpus, 8 GiB memory)
+    - Standard SSD LRS
 - 2x Disk
 - 2x NIC
 - 2x Network Security Group
@@ -85,6 +117,41 @@ This Bicep Script will provision the following resources;
 - 1x Load Balancer
 - 1x Load Balancer IP Address
 
+#### Parameters
+
+1) `prefix` - Resource Prefix
+2) `location` - Azure Region
+3) `storageAccountkey` - Azure Storage Account Key (Fetched by `01_create_infra.ps1 using Azure CLI)
+4) `license_key` - Octopus Deploy License Key (Single Line)
+5) `admin_username` - Admin Username (For Octopus Deploy and VM Access)
+6) `admin_email` - Admin Email (For Octopus Deploy)
+7) `admin_password` - Admin Password (For Octopus Deploy and VM Access)
+8) `sqlServer_admin_username` - SQL Server Admin Username
+9) `sqlServer_admin_password` - SQL Server Admin Password
+
+#### Operations
+
+- Create 2x Network Security Groups for RDP Access to VMs
+- Creste 1x VNET with address prefix of 172.27.0.0/16
+- Create 2x Windows Server 2022 Standard D2s v3 VMs
+- Run Powershell Extension to execute `install_vm1.ps1` and `install_vmx.ps1` on VMs after all services provisioned
+` Create RDP, SMB, HTTP and HTTPS security Rules
+- Create a Subnet with an address prefix of 172.27.0.0/24
+- Create 2x Network Interfaces for VMs and attach to Subnet
+- Create a Load Balancer
+    - Setup BackEnd Address Pool (completed in `01_create_infra.ps`)
+    - Create HTTP and HTTPS load Balancing Rules
+    - Create Inbound NAT Rules for RDP
+        - 3389 to VM1
+        - 3390 to VM2
+    - Create Health probes for HTTP and HTTPS
+- Create a Public IP Address for Load Balancer
+- Create a NAT Gateway
+- Create a Public IP Address for NAT Gateway
+- Create a SQL Server
+- Create a SQL Server Firewall rule to allow Azure Resource Access
+- Create a SQL Server Daabase
+
 ## Provisioning Powershell Scripts
 
 ### `01_create_infra.ps1`
@@ -94,11 +161,11 @@ This script will provision the Storage Account and File Share as well as the mai
 #### Parameters
 
 1) Resource Group
-2) Prefix
-3) Location
-4) Admin Username
-5) Admin Email
-6) Admin Password
+2) Resource Prefix
+3) Azure Region
+4) Admin Username (For Octopus Deploy and VM Access)
+5) Admin Email (For Octopus Deploy)
+6) Admin Password (For Ocotpus Dpeloy and VM Access)
 7) SQL Server Admin Username
 8) SQL Server Admin Password
 9) Octopus Deploy License Key (Single Line)
@@ -112,8 +179,8 @@ This script will provision the Storage Account and File Share as well as the mai
 - Create Ocotpus directories in the File Share
 - Retrieve the Storage Account Access Key
 - Begin the "main" Bicep Provisioning Script, passing in;
-    - Prefix
-    - Location
+    - Resource Prefix
+    - Azure Region
     - Admin Username
     - Admin Email
     - Admin Password
