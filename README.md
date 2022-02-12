@@ -1,6 +1,6 @@
 # Octopus Deploy HA Bicep and Powershell Scripts
 
-This repo contains a Bicep Script and a set of Powershell scripts that will stand up all of the architecture needed for Octopus Deploy HA.
+This repo contains Bicep and Powershell scripts that will stand up all of the architecture needed for Octopus Deploy HA.
 
 Currently this stands up two VMs and configures Octopus on each for HA.
 
@@ -55,9 +55,10 @@ The UI can be access using HTTP only currently at;
 You will need the following
 
 - An Active Azure Subscription
+- A Resource Group
 - The Azure CLI, signed in using az login at a powershell terminal
 - An Octopus Deploy License with unlimited Nodes
-- 
+- Powershell v 7.2.1+
 
 ## Useful Links
 
@@ -305,3 +306,4 @@ This script runs on all subsquent nodes and configures the node with the databas
 - General Tidying
 - Error Handling
 - Better Logging
+- Download latest Ocotpus Windows App as it's hardcoded at the moment
