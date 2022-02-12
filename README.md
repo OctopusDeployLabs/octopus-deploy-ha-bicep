@@ -46,7 +46,7 @@ You can then access the VMs using RDP;
 
 - `<Load Balancer Public IP>`:3390
 
-The UI can be access using HTTP only currently at;
+The UI can be accessed using HTTP only currently at;
 
 `http://<Load Balancer Public IP>`
 
